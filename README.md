@@ -26,7 +26,7 @@ This document details how to install and use this integration.
 1. Log in to your StatusHub.io account as an admin user
 2. Click `Settings` in the top right corner, and then select `API Key` from left toolbar
 3. On the API tab, click `Generate new API Key`, then copy the generated API Key
-<img src="images/.png" alt="API Key" height="400" style="border:5px solid #000000;">
+<img src="images/API Key.png" alt="API Key" height="400" style="border:5px solid #000000;">
 
 
 ## Add Outbound Integration
@@ -93,11 +93,11 @@ Testing the changes will differ based on your specific communication plan, but n
 
 **Example response options**
 
-<img src="images/ResponseOptions.png" alt="Response Options" height="400" style="border:5px solid #000000;">
+<img src="images/Response Options.png" alt="Response Options" height="400" style="border:5px solid #000000;">
 
 **Example Incident that has been created, updated, and resolved using response options**
 
-<img src="images/.png" alt="Example Incident" height="400" style="border:5px solid #000000;">
+<img src="images/Example Incident.png" alt="Example Incident" height="400" style="border:5px solid #000000;">
 
 
 First, select the `Create StatusHub Incident` option to generate the incident. Then use the `Update StatusHub Incident with Comment` option to add a comment to the StatusHub incident, and the `Resolve StatusHub Incident` option to resolve the incident.
