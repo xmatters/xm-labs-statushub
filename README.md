@@ -78,6 +78,7 @@ Where SERVICE_NAME is the name of the service you would like the integration to 
 
 10. Click `Update Outbound Integration`, then use the breadcrumbs to return to the list of Integration Services. 
 11. Expand the Outbound Integrations section (if necessary), and click the  `+ Add` button, then fill out the following details in the wizard to update incidents with a comment:
+
 | Item | Selection |
 | ---- | ---- |
 | Set your trigger      | Event Comments, \<Choose the appropriate form> |
