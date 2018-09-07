@@ -19,7 +19,8 @@ This document details how to install and use this integration.
 
 # Files
 * [StatusHub.js](StatusHub.js) - This is the code for the Shared Library that abstracts the interactions with StatusHub to a higher level. 
-* [OutboundResponseScript.js](OutboundResponseScript.js) - This is the Outbound Response script that accepts the response from the notification recipient, inspects the response option selected, and, if necessary, makes the function calls to the StatusHub shared library to make the updates. 
+* [OutboundResponseScript.js](OutboundResponseScript.js) - This is the Outbound Response script that accepts the response from the notification recipient, inspects the response option selected, and makes the function calls to the StatusHub shared library create a new Incident or change the status. 
+* [OutboundResponseScript.js](OutboundMessageScript.js) - This is the Outbound Response script that accepts updates with comments from the notification recipient and adds the update to the StatusHub Incident.
 
 # Installation
 ## Get StatusHub Token
@@ -65,20 +66,28 @@ Where SERVICE_NAME is the name of the service you would like the integration to 
 
 7. Expand the Shared libraries section (if necessary) and click the `+ Add` button
 7. Update the name at the top from `My Shared Library` to `StatusHub`, then paste in the contents of the [StatusHub.js](StatusHub.js) file and hit `Save`.
-8. Expand the Outbound Integrations section (if necessary) and click the `+ Add` button. (We are going to add a new script here, but don't worry: this will not impact any existing scripts. You can have several outbound integrations that all run on notification response, as long as you add logic to each one to determine if they should fire.) 
-9. Fill out the following details in the wizard:
+8. Expand the Outbound Integrations section (if necessary) and click the `+ Add` button. (We are going to add two new scripts here, but don't worry: this will not impact any existing scripts. You can have several outbound integrations that all run on notification response, as long as you add logic to each one to determine if they should fire.) 
+9. Fill out the following details in the wizard to create and resolve incidents:
 
 | Item | Selection |
 | ---- | ---- |
-| Choose an action | Run a Script |
-| Select a form    | \<Choose the appropriate form> |
-| Select a trigger | Notification responses |
-| Integration name | \<Form name> - Outbound Response - StatusHub.io <br/> **Note** The Integration name format is arbitrary, but including the form name and `StatusHub.io` helps fellow developers see what a script does. |
-6. Click Save and Open Script Editor 
-7. In the script editor, paste the contents of the [OutboundResponseScript.js](OutboundResponseScript.js) file. 
-8. Click Save, and then close the script editor. 
-9. On the Forms tab of the communication plan, click Edit > Responses for the relevant form that will handle the StatusHub response options. 
-10. Add the following response options with the related attributes. You can change the text displayed, but the code in the [OutboundResponseScript.js](OutboundResponseScript.js) file will reference the value in the `Response` column. If you do change the text, make sure to update the OutboundResponseScript to reflect the value in the Response column. 
+| Set your trigger | Event Comments | \<Choose the appropriate form> |
+| Action               | Run a script |
+| Name                | \<Form name> - Create/Resolve StatusHub Incidents <br/> **Note** The Integration name format is arbitrary, but including the form name and `StatusHub` helps fellow developers see what a script does |
+| Edit the Script | Paste the contents of the [OutboundResponseScript.js](OutboundResponseScript.js) file, then hit `Save` |
+
+10. Click `Update Outbound Integration`, then use the breadcrumbs to return to the list of Integration Services. 
+11. Expand the Outbound Integrations section (if necessary), and click the  `+ Add` button, then fill out the following details in the wizard to update incidents with a comment:
+| Item | Selection |
+| ---- | ---- |
+| Set your trigger      | Event Comments, \<Choose the appropriate form> |
+| Action                     | Run a script |
+| Name                      | \<Form name> - Update StatusHub Incident with Comment <br/> **Note** The Integration name format is arbitrary, but including the form name and `StatusHub` helps fellow developers see what a script does.  |
+| Edit the Script        |  Paste the contents of the [OutboundMessageScript.js](OutboundMessageScript.js) file, then hit `Save` |
+
+12. Click `Update Outbound Integration`, then use the breadcrumbs to return to the list of Integration Services
+13. On the Forms tab of the communication plan, click Edit > Responses for the relevant form that will handle the StatusHub response options. 
+14. Add the following response options with the related attributes. You can change the text displayed, but the code in the the response scripts you just copied into the Outbound integrations will reference the value in the `Response` column. If you do change the text, make sure to update the OutboundResponseScript and the OutboundMessageScript to reflect the value in the Response column. 
 
 | Response | Email Description | Voice Prompt | Options  |
 | -------- | ----------------- | ------------ | -------- |
