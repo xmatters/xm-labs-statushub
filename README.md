@@ -46,6 +46,7 @@ This document details how to install and use this integration.
 | ---- | --------- |
 | Name | StatusHub API Key |
 | Value | API_KEY_VALUE |
+
 Where API_KEY_VALUE is the API Key from StatusHub in the steps above.
 
 5. Click `Save Changes`, then click `Add Constant`; fill out the following details to create a constant to hold the subdomain:
@@ -54,6 +55,7 @@ Where API_KEY_VALUE is the API Key from StatusHub in the steps above.
 | ---- | --------- |
 | Name | StatusHub Subdomain |
 | Value | SUBDOMAIN |
+
 Where SUBDOMAIN is the subdomain from StatusHub, for example, if your StatusHub page is `example.statushub.io`, SUBDOMAIN would be `example`.
 
 6. Click `Save Changes`, then click `Add Constant`; fill out the following details to create a constant to hold the Service name:
@@ -62,6 +64,7 @@ Where SUBDOMAIN is the subdomain from StatusHub, for example, if your StatusHub 
 | ---- | --------- |
 | Name | StatusHub Service Name |
 | Value | SERVICE_NAME |
+
 Where SERVICE_NAME is the name of the service you would like the integration to create StatusHub Incidents under
 
 7. Expand the Shared libraries section (if necessary) and click the `+ Add` button
