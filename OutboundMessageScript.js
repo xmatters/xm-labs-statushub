@@ -15,4 +15,4 @@ if (callback.eventProperties && Array.isArray(callback.eventProperties)) {
 }
 
 //update StatusHub incident with new message
-StatusHub.updateStatusHubIncident( "message", callback.eventProperties.number, constants["StatusHub Service Name"], callback.comment );
+StatusHub.updateStatusHubIncident( "message", callback.eventIdentifier, constants["StatusHub Service Name"], callback.comment );
