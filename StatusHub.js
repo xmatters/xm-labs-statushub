@@ -163,7 +163,7 @@ exports.getStatusHubService = function( serviceName ) {
         var shRequest = http.request({
             'endpoint': 'StatusHub',
             'method': 'Get',
-            'path': '/api/status_pages/' + constants["StatusHub Subdomain"] + '/services?api_key=' + constants["StatusHub API Key"] + 'page=' + page++ + '&per_page=100',
+            'path': '/api/status_pages/' + constants["StatusHub Subdomain"] + '/services?api_key=' + constants["StatusHub API Key"] + '&page=' + page++ + '&per_page=100',
             'headers': {
                 'Content-Type': 'application/json'
             }
