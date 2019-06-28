@@ -32,19 +32,19 @@ This document details how to install and use this integration.
 1. Log in to your StatusHub.io account as an admin user
 2. Click `Settings` in the top right corner, and then select `API Key` from left toolbar
 3. On the API tab, click `Generate new API Key`, then copy the generated API Key
-![api-key](api-key.png)
+![api-key](./media/api-key.png)
 
 
 ## Adding custom steps to Flow Designer
 
 1. Log in to your xMatters instance, navigate to the Developer tab, and for the Communication Plan you would like to add StatusHub options to, click on **Edit** > **Flows**
-![flow-designer](flow-designer.png)
+![flow-designer](./media/flow-designer.png)
 2. For the form you would like to add StatusHub options to, click on `Create a flow`
-![create-flow](create-flow.png)
+![create-flow](./media/create-flow.png)
 3. Click and drag **Responses** into the flow
-![drag-responses](drag-responses.png)
+![drag-responses](./media/drag-responses.png)
 4. Under the Responses, click on **+ Add Response**
-![add-response](add-response.png)
+![add-response](./media/add-response.png)
 5. Add three new response options, filling in the following values, then click **Save**:
 
 | Response | Email Description | Voice Prompt | Options |
@@ -59,7 +59,7 @@ This document details how to install and use this integration.
 ### `Create Incident` custom step
 
 1. Inside the flow designer, click on the **Custom** tab, then click **Create a custom step**
-![create-custom-step](create-custom-step.png)
+![create-custom-step](./media/create-custom-step.png)
 2. Fill out the **Settings** with the following values
 
 | Item | Value |
@@ -80,7 +80,7 @@ This document details how to install and use this integration.
 | Incident ID | ✓ | Unique identifier for incidents, use xMatters event.enentId |
 
 * Note, the service name will be one of the services inside StatusHub, for example
-![example-service](example-service.png)
+![example-service](./media/example-service.png)
 In this example, you could use `Website`, `API`, or `HR Server` as possible service names
 4. In the **Script** tab, copy the [CreateIncidentScript](./CreateIncidentScript.js)
 5. Click **Save**, exit the custom step, then drag it into the flow, connecting it to the `Create Incident` response option
@@ -152,7 +152,7 @@ In this example, you could use `Website`, `API`, or `HR Server` as possible serv
 
 Testing the changes will differ based on your specific communication plan, but new events will have four new response options. For example:
 
-![example-responses](example-responses.png)
+![example-responses](./media/example-responses.png)
 
 1. After responding with `Create Incident`, you should see an incident in your StatusHub instance 
 2. Using `Add Comment to Incident` and entering a comment in xMatters, you should be able to add a comment to the incident.
@@ -164,9 +164,9 @@ If any of these do not work, go back to the installation section and make sure y
 # Troubleshooting
 
 If you are running in to issues, go to the flow, and click on **Activity**
-![activity-log](activity-log.png)
+![activity-log](./media/activity-log.png)
 Click on the response option you are having issues with, then click **Log**
-![error-log](error-log.png)
+![error-log](./media/error-log.png)
 The log should be able to give you some guidance on what is going wrong, in this case the StatusHub endpoint was created but I forgot to set the endpoint in the custom step :)
 
 That's it! If you have any more questions, reach out to an xPert.
