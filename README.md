@@ -1,5 +1,6 @@
 # StatusHub Outbound (from xMatters) Integration
-This is part of the xMatters Labs awesome listing. For others, see [here](https://github.com/xmatters/xMatters-Labs)
+This is part of the xMatters Labs awesome listing. For others, see [here](https://github.com/xmatters/xMatters-Labs).
+
 With this Outbound Integration, notification recipients can quickly create, update, and resolve StatusHub incidents, right from the xMatters notification! 
 
 This document details how to install and use this integration. 
@@ -18,99 +19,154 @@ This document details how to install and use this integration.
 * xMatters account - If you don't have one, [get one](https://www.xmatters.com)! 
 
 # Files
-* [StatusHub.js](StatusHub.js) - This is the code for the Shared Library that abstracts the interactions with StatusHub to a higher level. 
-* [OutboundResponseScript.js](OutboundResponseScript.js) - This is the Outbound Response script that accepts the response from the notification recipient, inspects the response option selected, and makes the function calls to the StatusHub shared library create a new Incident or change the status. 
-* [OutboundResponseScript.js](OutboundMessageScript.js) - This is the Outbound Response script that accepts updates with comments from the notification recipient and adds the update to the StatusHub Incident.
+
+* [ExampleCommPlan](ExampleCommPlan.zip) - This is an example Communication Plan which you can import into xMatters to quickly import the custom steps
+* [CreateIncidentScript](CreateIncidentScript.js) - This is the script that will be in the `Create Incident` step
+* [UpdateIncidentScript](UpdateIncidentScript.js) - This is the script that will be in the `Update Incident Status` step
+* [CommentIncidentScript](CommentIncidentScript.js) - This is the script that will be in the `Add Comment to Incident` step
 
 # Installation
+
 ## Get StatusHub Token
+
 1. Log in to your StatusHub.io account as an admin user
 2. Click `Settings` in the top right corner, and then select `API Key` from left toolbar
 3. On the API tab, click `Generate new API Key`, then copy the generated API Key
-<img src="media/API key.png" alt="API key" style="border:5px solid #000000;">
+![api-key](api-key.png)
 
 
-## Add Outbound Integration
-1. Log in to your xMatters instance as a user with the Developer role (or anyone with access to the target communication plan). On the Developer tab, click Edit > Integration Builder for the target communication plan
-2. Click 'Edit Endpoints', and then click `Add Endpoint` to add an endpoint for StatusHub; fill out the following details:
+## Adding custom steps to Flow Designer
 
-| Item | Selection |
-| ---- | --------- |
-| Name | StatusHub |
-| Base URL | https://api.statushub.io/ |
+1. Log in to your xMatters instance, navigate to the Developer tab, and for the Communication Plan you would like to add StatusHub options to, click on **Edit** > **Flows**
+![flow-designer](flow-designer.png)
+2. For the form you would like to add StatusHub options to, click on `Create a flow`
+![create-flow](create-flow.png)
+3. Click and drag **Responses** into the flow
+![drag-responses](drag-responses.png)
+4. Under the Responses, click on **+ Add Response**
+![add-response](add-response.png)
+5. Add three new response options, filling in the following values, then click **Save**:
 
-3. Click Save and Close.
-4. Click the `Edit Constants` button and `Add Constant`; fill out the following details to create a constant to hold the API key:
+| Response | Email Description | Voice Prompt | Options |
+| ---- | --- | --- | --- |
+| Create Incident | Create Incident in StatusHub | Create Incident | Record Response |
+| Add Comment to Incident | Add Comment to StatusHub Incident | Add Comment | Record Response |
+| Issue Identified | Change Status of StatusHub Incident to `Identified` | Issue Identified | Record Response |
+| Resolve Incident | Resolve Incident in StatusHub | Resolve Incident | Record Response |
 
-| Item | Selection |
-| ---- | --------- |
-| Name | StatusHub API Key |
-| Value | API_KEY_VALUE |
+* Note: For the `Add Comment to Incident` response option, make sure to check the `Enable comments` checkbox under the options dropdown
 
-Where API_KEY_VALUE is the API Key from StatusHub in the steps above.
+### `Create Incident` custom step
 
-5. Click `Save Changes`, then click `Add Constant`; fill out the following details to create a constant to hold the subdomain:
+1. Inside the flow designer, click on the **Custom** tab, then click **Create a custom step**
+![create-custom-step](create-custom-step.png)
+2. Fill out the **Settings** with the following values
 
-| Item | Selection |
-| ---- | --------- |
-| Name | StatusHub Subdomain |
-| Value | SUBDOMAIN |
+| Item | Value |
+| --- | --- |
+| Name | Create StatusHub Incident |
+| Description | Create Incident in StatusHub |
+| Include Endpoint | ✓ |
+| Endpoint Type | No Authentication |
+| Endpoint Label | StatusHub |
 
-Where SUBDOMAIN is the subdomain from StatusHub, for example, if your StatusHub page is `example.statushub.io`, SUBDOMAIN would be `example`.
+3. Add the following inputs to the **Inputs** tab
 
-6. Click `Save Changes`, then click `Add Constant`; fill out the following details to create a constant to hold the Service name:
+| Name | Required field | Help Text |
+| --- | --- | --- |
+| Subdomain | ✓ | e.g. [subdomain].statushub.io |
+| API Key | ✓ | Found at https://app.statushub.io/my/account/token |
+| Service Name | ✓ | Service name to create incidents under |
+| Incident ID | ✓ | Unique identifier for incidents, use xMatters event.enentId |
 
-| Item | Selection |
-| ---- | --------- |
-| Name | StatusHub Service Name |
-| Value | SERVICE_NAME |
+* Note, the service name will be one of the services inside StatusHub, for example
+![example-service](example-service.png)
+In this example, you could use `Website`, `API`, or `HR Server` as possible service names
+4. In the **Script** tab, copy the [CreateIncidentScript](./CreateIncidentScript.js)
+5. Click **Save**, exit the custom step, then drag it into the flow, connecting it to the `Create Incident` response option
+6. Double click the custom step you just dragged into the flow to edit it, then fill in the inputs with their respective values
+7. In the `Endpoint` tab, click `+ Create New Endpoint`
+8. Name the endpoint `StatusHub`, and set the Base URL to `https://api.statushub.io` (leave authentication type as None), then click **Save Changes** and close the tab
 
-Where SERVICE_NAME is the name of the service you would like the integration to create StatusHub Incidents under
+### `Update Incident Status` custom step
+1. Inside the flow designer, click on the **Custom** tab, then click **Create a custom step**
+2. Fill out the **Settings** with the following values
 
-7. Expand the Shared libraries section (if necessary) and click the `+ Add` button
-7. Update the name at the top from `My Shared Library` to `StatusHub`, then paste in the contents of the [StatusHub.js](StatusHub.js) file and hit `Save`.
-8. Expand the Outbound Integrations section (if necessary) and click the `+ Add` button. (We are going to add two new scripts here, but don't worry: this will not impact any existing scripts. You can have several outbound integrations that all run on notification response, as long as you add logic to each one to determine if they should fire.) 
-9. Fill out the following details in the wizard to create and resolve incidents:
+| Item | Value |
+| --- | --- |
+| Name | Update Status on StatusHub Incident |
+| Description | Update Incident Status to `investigating`, `identified`, `monitoring`, or `resolved` |
+| Include Endpoint | ✓ |
+| Endpoint Type | No Authentication |
+| Endpoint Label | StatusHub |
 
-| Item | Selection |
-| ---- | ---- |
-| Set your trigger | Event Comments | \<Choose the appropriate form> |
-| Action               | Run a script |
-| Name                | \<Form name> - Create/Resolve StatusHub Incidents <br/> **Note** The Integration name format is arbitrary, but including the form name and `StatusHub` helps fellow developers see what a script does |
-| Edit the Script | Paste the contents of the [OutboundResponseScript.js](OutboundResponseScript.js) file, then hit `Save` |
+3. Add the following inputs to the **Inputs** tab
 
-10. Click `Update Outbound Integration`, then use the breadcrumbs to return to the list of Integration Services. 
-11. Expand the Outbound Integrations section (if necessary), and click the  `+ Add` button, then fill out the following details in the wizard to update incidents with a comment:
+| Name | Required field | Help Text |
+| --- | --- | --- |
+| Subdomain | ✓ | e.g. [subdomain].statushub.io |
+| API Key | ✓ | Found at https://app.statushub.io/my/account/token |
+| Service Name | ✓ | Service name to create incidents under |
+| Incident ID | ✓ | Unique identifier for incidents, use xMatters event.enentId |
+| Status | ✓ | One of `investigating`, `identified`, `monitoring`, or `resolved` to change the Status to |
 
-| Item | Selection |
-| ---- | ---- |
-| Set your trigger      | Event Comments, \<Choose the appropriate form> |
-| Action                     | Run a script |
-| Name                      | \<Form name> - Update StatusHub Incident with Comment <br/> **Note** The Integration name format is arbitrary, but including the form name and `StatusHub` helps fellow developers see what a script does.  |
-| Edit the Script        |  Paste the contents of the [OutboundMessageScript.js](OutboundMessageScript.js) file, then hit `Save` |
+4. In the **Script** tab, copy the [UpdateIncidentScript](./UpdateIncidentScript.js)
+5. Click **Save**, exit the custom step, then drag it into the flow, connecting it to the `Issue Identified` response option
+6. Double click the custom step you just dragged into the flow to edit it, then fill in the inputs with their respective values
+7. In the `Endpoint` tab, select `StatusHub` as the endpoint, then click **Save Changes** and exit
+8. Drag another `Update Incident` step into the flow, connecting it to the `Resolve Incident` response option
+9. Double click the custom step you just dragged into the flow to edit it, then fill in the inputs with their respective values
+10. In the `Endpoint` tab, select `StatusHub` as the endpoint, then click **Save Changes** and exit
 
-12. Click `Update Outbound Integration`, then use the breadcrumbs to return to the list of Integration Services
-13. On the Forms tab of the communication plan, click Edit > Responses for the relevant form that will handle the StatusHub response options. 
-14. Add the following response options with the related attributes. You can change the text displayed, but the code in the the response scripts you just copied into the Outbound integrations will reference the value in the `Response` column. If you do change the text, make sure to update the OutboundResponseScript and the OutboundMessageScript to reflect the value in the Response column. 
+### `Add Comment to Incident` custom step
+1. Inside the flow designer, click on the **Custom** tab, then click **Create a custom step**
+2. Fill out the **Settings** with the following values
 
-| Response | Email Description | Voice Prompt | Options  |
-| -------- | ----------------- | ------------ | -------- |
-| Create StatusHub Incident               | Stop escalations and create StatusHub Incident               | Create StatusHub Incident  | Assign to User |
-| Update StatusHub Incident with Comment  | Enter text in the comment field to pass to StatusHub  | Update StatusHub Incident | Assign to User  `✓ Enable Comments` |
-| Resolve StatusHub Incident              | Stop escalations and resolve StatusHub Incident | Resolve StatusHub Incident | Assign to User |
+| Item | Value |
+| --- | --- |
+| Name | Add Comment to StatusHub incident |
+| Description | Add a comment to StatusHub incident |
+| Include Endpoint | ✓ |
+| Endpoint Type | No Authentication |
+| Endpoint Label | StatusHub |
 
+3. Add the following inputs to the **Inputs** tab
+
+| Name | Required field | Help Text |
+| --- | --- | --- |
+| Subdomain | ✓ | e.g. [subdomain].statushub.io |
+| API Key | ✓ | Found at https://app.statushub.io/my/account/token |
+| Service Name | ✓ | Service name to create incidents under |
+| Incident ID | ✓ | Unique identifier for incidents, use xMatters event.enentId |
+| Comment | ✓ | Fill in with `annotation.comment` following an `Event Comments` trigger |
+
+4. In the **Script** tab, copy the [CommentIncidentScript](./CommentIncidentScript.js)
+5. Click **Save**, exit the custom step, then drag it into the flow
+6. Next, inside the flow, click on the `Triggers` tab, then drag in the **Event Comments** trigger into the flow
+7. Click on the `Tools` tab, then drag in the **Switch** trigger into the flow, connecting it to the event comments trigger
+8. Double click on the `Switch` trigger inside the flow, and set the property to `Comments.annotation.response.response`, then click **Done**
+6. Double click the custom step you just dragged into the flow to edit it, then fill in the inputs with their respective values
+7. In the `Endpoint` tab, select `StatusHub` as the endpoint, then click **Save Changes** and exit
 
 # Testing
 
-Testing the changes will differ based on your specific communication plan, but new events will have three new response options. For example:
+Testing the changes will differ based on your specific communication plan, but new events will have four new response options. For example:
 
-**Example response options**
+![example-responses](example-responses.png)
 
-<img src="media/Response Options.png" alt="Response Options" style="border:5px solid #000000;">
+1. After responding with `Create Incident`, you should see an incident in your StatusHub instance 
+2. Using `Add Comment to Incident` and entering a comment in xMatters, you should be able to add a comment to the incident.
+3. Using `Issue Identified`, (note, you could also have a response option for each of changing the incident to `investigating`, `identified`, `monitoring`, and `resolved` if you so choose) you should be able to change the status of the incident to `identified`
+4. Using `Resolve Incident`, you should be able to resolve the incident
 
-**Example Incident that has been created, updated, and resolved using response options**
+If any of these do not work, go back to the installation section and make sure you copied the correct script, defined all your inputs correctly, and set the correct endpoint
 
-<img src="media/Example Incident.png" alt="Example Incident" height="400" style="border:5px solid #000000;">
+# Troubleshooting
 
+If you are running in to issues, go to the flow, and click on **Activity**
+![activity-log](activity-log.png)
+Click on the response option you are having issues with, then click **Log**
+![error-log](error-log.png)
+The log should be able to give you some guidance on what is going wrong, in this case the StatusHub endpoint was created but I forgot to set the endpoint in the custom step :)
 
-First, select the `Create StatusHub Incident` option to generate the incident. Then use the `Update StatusHub Incident with Comment` option to add a comment to the StatusHub incident, and the `Resolve StatusHub Incident` option to resolve the incident.
+That's it! If you have any more questions, reach out to an xPert.
