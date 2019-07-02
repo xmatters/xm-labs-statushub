@@ -1,9 +1,5 @@
 # StatusHub Outbound (from xMatters) Integration
-<<<<<<< HEAD
-This is part of the xMatters Labs awesome listing. For others, see [here](https://github.com/xmatters/xMatters-Labs)
-=======
 This is part of the xMatters Labs awesome listing. For others, see [here](https://github.com/xmatters/xMatters-Labs).
->>>>>>> 9e9c82708a8a930be7c6f1be4f9246d39ba70a78
 
 With this Outbound Integration, notification recipients can quickly create, update, and resolve StatusHub incidents, right from the xMatters notification! 
 
@@ -23,17 +19,11 @@ This document details how to install and use this integration.
 * xMatters account - If you don't have one, [get one](https://www.xmatters.com)! 
 
 # Files
-<<<<<<< HEAD
-* [StatusHub.js](StatusHub.js) - This is the code for the Shared Library that abstracts the interactions with StatusHub to a higher level. 
-* [OutboundResponseScript.js](OutboundResponseScript.js) - This is the Outbound Response script that accepts the response from the notification recipient, inspects the response option selected, and makes the function calls to the StatusHub shared library create a new Incident or change the status. 
-* [OutboundMessageScript.js](OutboundMessageScript.js) - This is the Outbound Response script that accepts updates with comments from the notification recipient and adds the update to the StatusHub Incident.
-=======
 
 * [ExampleCommPlan](ExampleCommPlan.zip) - This is an example Communication Plan which you can import into xMatters to quickly import the custom steps
 * [CreateIncidentScript](CreateIncidentScript.js) - This is the script that will be in the `Create Incident` step
 * [UpdateIncidentScript](UpdateIncidentScript.js) - This is the script that will be in the `Update Incident Status` step
 * [CommentIncidentScript](CommentIncidentScript.js) - This is the script that will be in the `Add Comment to Incident` step
->>>>>>> 9e9c82708a8a930be7c6f1be4f9246d39ba70a78
 
 # Installation
 
