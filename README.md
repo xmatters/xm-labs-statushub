@@ -146,7 +146,7 @@ In this example, you could use `Website`, `API`, or `HR Server` as possible serv
 8. Double click on the `Switch` trigger inside the flow, and set the property to `Comments.annotation.response.response`, then click **Done**
 9. Click on `Add Path`, click on the created trigger, and set the value to match the comment response option.
 ![switch-step](./media/switch-step.png)
-10. Drag the comment custom step you just created into the flow, and connect it to the switch step you just created
+10. Drag the comment custom step you just created into the flow, and connect it to the `Add Comment to Incident` response option
 11. Double click the custom step you just dragged into the flow to edit it, then fill in the inputs with their respective values
 12. In the `Endpoint` tab, select `StatusHub` as the endpoint, then click **Save Changes** and exit
 
