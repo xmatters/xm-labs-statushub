@@ -8,19 +8,21 @@ This document details how to install and use this integration.
 ---------
 
 <kbd>
-<img src="https://github.com/xmatters/xMatters-Labs/raw/master/media/disclaimer.png">
+<a href="https://support.xmatters.com/hc/en-us/community/topics">
+   <img src="https://github.com/xmatters/xMatters-Labs/raw/master/media/disclaimer.png">
+</a>
 </kbd>
 
 ---------
 
 # Pre-Requisites
 * [StatusHub.io](https://www.StatusHub.io/) account
-* Existing communication plan - Use a packaged integration from the [integrations](https://www.xmatters.com/integrations) page, or [build your own](https://support.xmatters.com/hc/en-us/articles/202396229) 
+* Existing workflow - Use a packaged integration from the [integrations](https://www.xmatters.com/integrations) page, or [build your own](https://support.xmatters.com/hc/en-us/articles/202396229) 
 * xMatters account - If you don't have one, [get one](https://www.xmatters.com)! 
 
 # Files
 
-* [ExampleCommPlan](ExampleCommPlan.zip) - This is an example Communication Plan which you can import into xMatters to quickly import the custom steps
+* [ExampleCommPlan](ExampleCommPlan.zip) - This is an example Workflow which you can import into xMatters to quickly import the custom steps
 * [CreateIncidentScript](CreateIncidentScript.js) - This is the script that will be in the `Create Incident` step
 * [UpdateIncidentScript](UpdateIncidentScript.js) - This is the script that will be in the `Update Incident Status` step
 * [CommentIncidentScript](CommentIncidentScript.js) - This is the script that will be in the `Add Comment to Incident` step
@@ -37,7 +39,7 @@ This document details how to install and use this integration.
 
 ## Adding custom steps to Flow Designer
 
-1. Log in to your xMatters instance, navigate to the Workflows tab, and for the Communication Plan you would like to add StatusHub options to
+1. Log in to your xMatters instance, navigate to the Workflows tab, and for the Workflow you would like to add StatusHub options to
 2. Create new form and then switch to **Flows** tab and click on **Create a flow**
 ![create-flow](./media/create-flow.png)
 3. Click and drag **Responses** into the flow
@@ -155,7 +157,7 @@ Now that we have all the steps, your flow should look something like this:
 
 # Testing
 
-Testing the changes will differ based on your specific communication plan, but new events will have four new response options. For example:
+Testing the changes will differ based on your specific workflow, but new events will have four new response options. For example:
 
 ![example-responses](./media/example-responses.png)
 
